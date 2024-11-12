@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
         home: `
             <section id="home">
                 <h2>Bienvenue au Pong Game</h2>
-                <p></p>
+                <p>Profitez d'une expérience unique !</p>
                 <div class="gif-border">
                     <img src="Utils/Homer.gif" alt="Pong Game GIF">
                 </div>
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <form id="registration-form">
                     <label for="alias">Alias :</label>
                     <input type="text" id="alias" name="alias" required>
-                    <button class="button-54" role="button">S'inscrire</button>
+                    <button class="button-54" type="submit">S'inscrire</button>
                 </form>
             </section>
         `,
@@ -41,8 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
     navLinks.forEach(link => {
         link.addEventListener('click', (event) => {
             event.preventDefault();
-            const page = link.getAttribute('data-page');
-            mainContent.innerHTML = pages[page];
+            const page = link.dataset.page;
+            mainContent.innerHTML = pages[page] || pages.home;
             history.pushState({}, '', `#${page}`);
             setupPageEvents();
         });
@@ -54,14 +54,11 @@ document.addEventListener('DOMContentLoaded', () => {
         setupPageEvents();
     });
 
-    // Charger la page initiale
     const initialPage = location.hash.substring(1) || 'home';
     mainContent.innerHTML = pages[initialPage];
     setupPageEvents();
 
-    // Fonction pour gérer les événements spécifiques à chaque page
     function setupPageEvents() {
-        // Gestion de l'inscription
         const registrationForm = document.getElementById('registration-form');
         if (registrationForm) {
             registrationForm.addEventListener('submit', (event) => {
@@ -73,20 +70,16 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Gestion du jeu Pong
         const pongCanvas = document.getElementById('pongCanvas');
         if (pongCanvas) {
             const ctx = pongCanvas.getContext('2d');
-            //jeu pong
+            // Code pour dessiner le jeu Pong ici
         }
 
-        // Générer les étoiles aléatoires
-        generateStars(50); // Par exemple, générer 50 étoiles
+        generateStars(50);
     }
 
-    // Fonction pour générer des étoiles à des positions aléatoires
     function generateStars(numberOfStars) {
-        // Créer un conteneur pour les étoiles si ce n'est pas déjà fait
         let starsContainer = document.getElementById('stars-container');
         if (!starsContainer) {
             starsContainer = document.createElement('div');
@@ -94,7 +87,8 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.appendChild(starsContainer);
         }
 
-        // Générer les étoiles à l'intérieur du conteneur
+        starsContainer.innerHTML = ''; // Nettoyer avant de recréer les étoiles
+
         for (let i = 0; i < numberOfStars; i++) {
             const star = document.createElement('div');
             star.classList.add('star');
